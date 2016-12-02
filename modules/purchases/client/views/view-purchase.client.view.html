@@ -1,0 +1,133 @@
+<section style="min-height:1600px;">
+  <div class="page-header">
+    <!--<h1 ng-bind="vm.purchase.docno"></h1>-->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInRight">
+          <div class="ibox-content p-xl">
+            <div class="row">
+              <div class="col-sm-6">
+                <h5>From:</h5>
+                <address>
+                  <strong>Cyber Advance System And Network Co.,Ltd</strong><br> 55/7 ม.11 ถ.วงแหวน-ลำลูกกา ต.บึงคำพร้อย อ.ลำลูกกา
+                  ปทุมธานี 12150<br>
+                  <abbr title="Phone">Tel:</abbr> 02-150-2016 <abbr title="Fax">Fax:</abbr> 02-150-2016
+                </address>
+              </div>
+
+              <div class="col-sm-6 text-right">
+                <h1 ng-bind="vm.purchase.docno"></h1>
+                <!--<h4>Quotation No : QT2016110001</h4>-->
+                <!--<h4 class="text-navy">QT2016110001</h4>-->
+                <p>
+                  <span ng-bind="vm.purchase.docdate | date:'dd/MM/yyyy'"><strong> Date :</strong></span><br>
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <span>To:</span>
+                <address>
+                  <strong>{{vm.purchase.client.name}}</strong><br>{{vm.purchase.client.address}}<br>
+                  <abbr title="Phone">Tel:</abbr>{{vm.purchase.client.telofficeno}}
+                </address>
+              </div>
+              <div class="col-sm-6 text-right">
+              </div>
+            </div>
+            <div class="table-responsive m-t">
+              <table class="table invoice-table">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="purchase in vm.purchase.items" ui-sref="purchase.view({ purchaseId: purchase._id })">
+                    <td>
+                      <div><strong>{{purchase.product.name}}</strong></div>
+                      <small>{{purchase.product.description}}</small></td>
+                    <td>{{purchase.unitprice | number:2}}</td>
+                    <td>{{purchase.qty}}</td>
+                    <td>{{purchase.amount | number:2}}</td>
+
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            <!-- /table-responsive -->
+            <table class="table invoice-total">
+              <tbody>
+                <tr ng-show="vm.purchase.amount > 0">
+                  <td class="no-line"></td>
+                  <td class="no-line"></td>
+                  <td class="no-line text-right"><strong>Amount</strong></td>
+                  <td class="no-line text-right">{{vm.purchase.amount | number:2}}</td>
+                </tr>
+                <tr ng-show="vm.purchase.discountamount > 0">
+                  <td class="no-line"></td>
+                  <td class="no-line"></td>
+                  <td class="no-line text-right"><strong>Discount Amount</strong></td>
+                  <td class="no-line text-right">{{vm.purchase.discountamount | number:2}}</td>
+                </tr>
+                <tr ng-show="vm.purchase.amountafterdiscount > 0">
+                  <td class="no-line"></td>
+                  <td class="no-line"></td>
+                  <td class="no-line text-right"><strong>Amount After Discount</strong></td>
+                  <td class="no-line text-right">{{vm.purchase.amountafterdiscount | number:2}}</td>
+                </tr>
+                <tr ng-show="vm.purchase.vatamount > 0">
+                  <td class="no-line"></td>
+                  <td class="no-line"></td>
+                  <td class="no-line text-right"><strong>Vat Amount</strong></td>
+                  <td class="no-line text-right">{{vm.purchase.vatamount | number:2}}</td>
+                </tr>
+                <tr ng-show="vm.purchase.whtamount > 0">
+                  <td class="no-line"></td>
+                  <td class="no-line"></td>
+                  <td class="no-line text-right"><strong>WHT Amount</strong></td>
+                  <td class="no-line text-right">{{vm.purchase.whtamount | number:2}}</td>
+                </tr>
+                <tr ng-show="vm.purchase.totalamount > 0">
+                  <td class="no-line"></td>
+                  <td class="no-line"></td>
+                  <td class="no-line text-right"><strong>Total Amount</strong></td>
+                  <td class="no-line text-right">{{vm.purchase.totalamount | number:2}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <!--<div class="text-right">
+              <button class="btn btn-primary"><i class="fa fa-dollar"></i> Make A Payment</button>
+            </div>-->
+
+            <!--<div class="well m-t"><strong>Comments</strong> It is a long established fact that a reader will be distracted by the readable content
+              of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pull-right" ng-show="vm.purchase.isCurrentUserOwner">
+    <a class="btn btn-primary" ui-sref="purchases.edit({ purchaseId: vm.purchase._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span ng-bind="vm.purchase.created | date:'mediumDate'"></span>
+      by
+      <span ng-if="vm.purchase.user"
+            ng-bind="vm.purchase.user.displayName"></span>
+      <span ng-if="!vm.purchase.user">Deleted User</span>
+    </em>
+  </small>
+</section>

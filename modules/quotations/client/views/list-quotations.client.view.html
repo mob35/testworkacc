@@ -1,0 +1,26 @@
+<section>
+  <div class="page-header">
+    <h1>Quotations</h1>
+  </div>
+  <div class="list-group">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Doc No</th>
+          <th>Customer</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="quotations in vm.quotations" ui-sref="quotations.view({ quotationId: quotations._id })">
+          <td>{{quotations.docno}}</td>
+          <td>{{quotations.client.name}}</td>
+          <td>{{quotations.amount}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="vm.quotations.$resolved && !vm.quotations.length">
+    No Quotations yet, why don't you <a ui-sref="quotations.create">create one</a>?
+  </div>
+</section>

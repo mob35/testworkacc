@@ -1,0 +1,203 @@
+<section ng-init="vm.init()" style="min-height:1200px;">
+  <div class="page-header">
+    <h1>{{vm.quotation._id ? 'Edit Quotation' : 'New Quotation'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.quotationForm" class="form-horizontal" ng-submit="vm.save(vm.form.quotationForm.$valid)" novalidate>
+      <fieldset>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group" show-errors>
+              <label class="control-label" for="client">Client</label><br>
+              <select name="client" ng-options="item as item.name for item in vm.client track by item._id " ng-model="vm.quotation.client"
+                ng-change="vm.selectCustomer()" required></select>
+              <div ng-messages="vm.form.quotation.client.$error" role="alert">
+                <p class="help-block error-text" ng-message="required ">Client is required.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <div class="form-group" show-errors>
+              <label class="control-label" for="docno">Doc No</label>
+              <input name="docno" type="text" ng-model="vm.quotation.docno" id="docno" class="form-control" placeholder="docno" required>
+              <div ng-messages="vm.form.quotationForm.docno.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Quotation docno is required.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="row form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Address</label>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-12">
+                <textarea style="height:83px" class="form-control" ng-model="vm.quotation.client.address" rows="3" placeholder='Address'></textarea>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-6">
+                <input type="text" ng-model="vm.quotation.client.taxid" class="form-control" placeholder="Tax ID">
+              </div>
+              <div class="col-md-6">
+                <input type="text" ng-model="vm.quotation.client.brunch" class="form-control" placeholder="Brunch">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row form-group">
+              <div class="col-md-6">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Contact</label>
+                </div>
+              <div class="col-md-6">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Mobile</label>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-6">
+                <input type="text" ng-model="vm.quotation.client.contact" class="form-control" placeholder="Contact">
+              </div>
+              <div class="col-md-6">
+                <input type="text" ng-model="vm.quotation.client.mobileno" class="form-control" placeholder="Mobile">
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-12">
+                <input type="text" ng-model="vm.quotation.client.faxno" class="form-control" placeholder="Fax No.">
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-12">
+                <input type="text" ng-model="vm.quotation.client.email" class="form-control" placeholder="Email">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="row form-group">
+              <div class="col-md-5">
+                <label class="control-label">Doc Date</label>
+              </div>
+              <div class="col-md-2">
+                <!--<label class="control-label col-md-3 col-sm-3 col-xs-12">Credit</label>-->
+              </div>
+              <div class="col-md-5">
+                <label class="control-label ">Drill Date</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="row form-group">
+              <div class="col-md-6">
+                <input name="docdate" type="date" ng-model="vm.quotation.docdate" ng-change="vm.creditdayChanged('docdate')" id="docdate" class="form-control" placeholder="docdate">
+              </div>
+
+              <div class="col-md-6">
+                <input name="drilldate" type="date" ng-model="vm.quotation.drilldate" id="drilldate" class="form-control" placeholder="drilldate" readonly>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-3">
+                <input name="creditday" type="number" ng-model="vm.quotation.creditday" ng-change="vm.creditdayChanged()" id="creditday" class="form-control" placeholder="creditday">
+              </div>
+              <div class="col-md-9">
+                <input name="refno" type="text" ng-model="vm.quotation.refno" id="refno" class="form-control" placeholder="Ref No">
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-7">
+                <label class="control-label" for="refno">isincludevat</label>
+                <input name="isincludevat" type="checkbox" ng-model="vm.quotation.isincludevat" id="refno" placeholder="isincludevat">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Product name</th>
+                <th>QTY</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="product in vm.quotation.items">
+                <td>{{$index+1}}</td>
+                <td><select name="client" ng-options="item as item.name for item in vm.products track by item._id " ng-model="product.product"
+                    ng-change="vm.productChanged(product)"></select></td>
+                <td><input name="qty" type="number" ng-model="product.qty" id="total" class="form-control" placeholder="QTY"
+                    ng-change="vm.calculate(product)"></td>
+                <td><input name="unitprice" type="number" ng-model="product.unitprice" id="total" class="form-control" placeholder="price"></td>
+                <td>{{product.amount}}</td>
+              <td><button type="button" class="btn btn-danger" ng-click="vm.removeItem($Index)">Delete</button></td>
+              </tr>
+              <tr>
+                <br>
+                <td>
+                  <button type="button" class="btn btn-primary" ng-click="vm.selectedProduct()">Add</button>
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-lg-3"></div>
+          <div class="col-lg-3"></div>
+          <div class="col-lg-3"></div>
+          <div class="col-lg-3">
+
+            <div class="form-group">
+              <label class="control-label" for="amount">Amount</label>
+              <input name="amount" type="number" ng-model="vm.quotation.amount" id="amount" class="form-control" placeholder="amount">
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="discountamount">Discount amount</label>
+              <input name="discountamount" type="number" ng-model="vm.quotation.discountamount" id="discountamount" class="form-control"
+                placeholder="Discount amount">
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="amount">Amount after discount</label>
+              <input name="amountafterdiscount" type="number" ng-model="vm.quotation.amountafterdiscount" id="amountafterdiscount" class="form-control"
+                placeholder="amountafterdiscount">
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="vatamount">vatamount</label>
+              <input name="vatamount" type="number" ng-model="vm.quotation.vatamount" id="vatamount" class="form-control" placeholder="vatamount">
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="whtamount">whtamount</label>
+              <input name="whtamount" type="number" ng-model="vm.quotation.whtamount" id="whtamount" class="form-control" placeholder="whtamount">
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="totalamount">totalamount</label>
+              <input name="totalamount" type="number" ng-model="vm.quotation.totalamount" id="totalamount" class="form-control" placeholder="totalamount">
+            </div>
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-default">{{vm.quotation._id ? 'Update' : 'Create'}}</button>
+            </div>
+            <div ng-show="vm.error" class="text-danger">
+              <strong ng-bind="vm.error"></strong>
+            </div>
+          </div>
+      </fieldset>
+    </form>
+    </div>
+</section>

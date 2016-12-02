@@ -1,0 +1,28 @@
+<section>
+  <div class="page-header">
+    <h1>Receipts</h1>
+  </div>
+  <div class="list-group">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Receipt No</th>
+          <th>Doc No</th>
+          <th>Customer</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="receipts in vm.receipts" ui-sref="receipts.view({ receiptId: receipts._id })">
+          <td>{{receipts.receiptno}}</td>
+          <td>{{receipts.docno}}</td>
+          <td>{{receipts.client.name}}</td>
+          <td>{{receipts.amount}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="vm.receipts.$resolved && !vm.receipts.length">
+    No Receipts yet, why don't you <a ui-sref="receipts.create">create one</a>?
+  </div>
+</section>

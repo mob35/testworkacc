@@ -1,0 +1,36 @@
+<section>
+  <div class="page-header">
+    <h1>Invoices</h1>
+  </div>
+  <div class="list-group">
+    <div class="form-group">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Customer name</th>
+            <th>Doc No.</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="invoice in vm.invoices " ui-sref="invoices.view({ invoiceId: invoice._id })">
+            <td>{{$index+1}}</td>
+            <td>
+              <p class="list-group-item-heading" ng-bind="invoice.client.name"></p>
+            </td>
+            <td>
+              <p class="list-group-item-heading" ng-bind="invoice.docno"></p>
+            </td>
+            <td>
+              <p class="list-group-item-heading" ng-bind="invoice.amount"></p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="vm.invoices.$resolved && !vm.invoices.length">
+    No Invoices yet, why don't you <a ui-sref="invoices.create">create one</a>?
+  </div>
+</section>

@@ -1,0 +1,60 @@
+<section style="min-height:730px;">
+  <div class="page-header">
+    <h1>{{vm.product._id ? 'Edit Product' : 'New Product'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.productForm" class="form-horizontal" ng-submit="vm.save(vm.form.productForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group">
+          <label class="control-label" for="category">Category</label>
+          <select class="selectpicker show-menu-arrow" ng-model="vm.product.category" convert-to-number> 
+   <option value="P">Product</option> 
+   <option value="S">Service</option> 
+   <option value="R">Rent</option> 
+</select>
+        </div>
+
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input name="name" type="text" ng-model="vm.product.name" id="name" class="form-control" placeholder="Name" required>
+          <div ng-messages="vm.form.productForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Product name is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="description">Description</label>
+          <input name="description" type="text" ng-model="vm.product.description" id="description" class="form-control" placeholder="Description">
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="buyprice">Buy Price</label>
+          <input name="buyprice" type="number" ng-model="vm.product.buyprice" id="buyprice" class="form-control" placeholder="Buy Price">
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="saleprice">Sale Price</label>
+          <input name="saleprice" type="number" ng-model="vm.product.saleprice" id="saleprice" class="form-control" placeholder="Sale Price"
+            required>
+          <div ng-messages="vm.form.productForm.saleprice.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Product saleprice is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label> Vat 7% </label>
+          <input name="isincludevat" type="checkbox" ng-model="vm.product.isincludevat"><br/>
+          <div ng-messages="vm.form.productForm.isincludevat.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Product isincludevat is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="unitname">Unit Name</label>
+          <input name="unitname" type="text" ng-model="vm.product.unitname" id="unitname" class="form-control" placeholder="Unit Name">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.product._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

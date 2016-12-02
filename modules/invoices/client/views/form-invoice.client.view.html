@@ -1,0 +1,199 @@
+<section ng-init="vm.init()" style="min-height:1200px;">
+  <div class="page-header">
+    <h1>{{vm.invoice._id ? 'Edit Invoice' : 'New Invoice'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.invoiceForm" class="form-horizontal" ng-submit="vm.save(vm.form.invoiceForm.$valid)" novalidate>
+      <fieldset>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group" show-errors>
+              <label class="control-label" for="client">Client</label>
+              <select name="client" ng-options="item as item.name for item in vm.client track by item._id " ng-model="vm.invoice.client"
+                ng-change="vm.selectCustomer()" required></select>
+              <div ng-messages="vm.form.invoice.client.$error" role="alert">
+                <p class="help-block error-text" ng-message="required ">Client is required.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4"></div>
+          <div class="col-lg-4">
+            <div class="form-group" show-errors>
+              <label class="control-label" for="docno">docno</label>
+              <input name="docno" type="text" ng-model="vm.invoice.docno" id="docno" class="form-control" placeholder="docno" required>
+              <div ng-messages="vm.form.invoiceForm.docno.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Invoice docno is required.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="row form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Address</label>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-12">
+                <textarea class="form-control" ng-model="vm.invoice.client.address" rows="3" placeholder='Address'></textarea>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-6">
+                <input type="text" ng-model="vm.invoice.client.taxid" class="form-control" placeholder="Tax ID">
+              </div>
+              <div class="col-md-6">
+                <input type="text" ng-model="vm.invoice.client.brunch" class="form-control" placeholder="Brunch">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Contact</label>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-6">
+                <input type="text" ng-model="vm.invoice.client.contact" class="form-control" placeholder="Contact">
+              </div>
+              <div class="col-md-6">
+                <input type="text" ng-model="vm.invoice.client.mobileno" class="form-control" placeholder="Mobile">
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-12">
+                <input type="text" ng-model="vm.invoice.client.faxno" class="form-control" placeholder="Fax No.">
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-12">
+                <input type="text" ng-model="vm.invoice.client.email" class="form-control" placeholder="Email">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="row form-group">
+              <div class="col-md-6">
+                <label class="control-label">Doc Date</label>
+              </div>
+              <!--<div class="col-md-4">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Credit</label>
+              </div>-->
+              <div class="col-md-6">
+                <label class="control-label ">Drill Date</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="row form-group">
+              <div class="col-md-6">
+                <input name="docdate" type="date" ng-model="vm.invoice.docdate" id="docdate" class="form-control" placeholder="docdate" ng-change="vm.creditdayChanged('docdate')">
+              </div>
+              <!--<div class="col-md-4">
+                <input name="creditday" type="number" ng-model="vm.invoice.creditday" id="creditday" class="form-control" placeholder="creditday">
+              </div>-->
+              <div class="col-md-6">
+                <input name="drilldate" type="date" ng-model="vm.invoice.drilldate" id="drilldate" class="form-control" placeholder="drilldate" readOnly>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-6">
+                <input name="refno" type="text" ng-model="vm.invoice.refno" id="refno" class="form-control" placeholder="refno">
+              </div>
+              <div class="col-md-6">
+                <input name="creditday" type="number" ng-model="vm.invoice.creditday" id="creditday" class="form-control" placeholder="creditday" ng-change="vm.creditdayChanged()">
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-7">
+                <label class="control-label" for="refno">Is Include Vat</label>
+                <input name="isincludevat" type="checkbox" ng-model="vm.invoice.isincludevat" id="isincludevat">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Product name</th>
+                <th>QTY</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="product in vm.invoice.items">
+                <td>{{$index+1}}</td>
+                <td><select name="client" ng-options="item as item.name for item in vm.products track by item._id " ng-model="product.product"
+                    ng-change="vm.productChanged(product)"></select></td>
+                <td><input name="qty" type="number" ng-model="product.qty" id="total" class="form-control" placeholder="QTY"
+                    ng-change="vm.calculate(product)"></td>
+                <td><input name="unitprice" type="number" ng-model="product.unitprice" id="total" class="form-control" placeholder="price"></td>
+                <td>{{product.amount}}</td>
+                <td><button type="button" class="btn btn-danger" ng-click="vm.removeItem($index)">Delete</button></td>
+              </tr>
+              <tr>
+                <br>
+                <td>
+                  <button type="button" class="btn btn-primary" ng-click="vm.selectedProduct()">Add</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-lg-3"></div>
+          <div class="col-lg-3"></div>
+          <div class="col-lg-3"></div>
+          <div class="col-lg-3">
+
+            <div class="form-group">
+              <label class="control-label" for="amount">Amount</label>
+              <input name="amount" type="number" ng-model="vm.invoice.amount" id="amount" class="form-control" placeholder="amount">
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="discountamount">Discount amount</label>
+              <input name="discountamount" type="number" ng-model="vm.invoice.discountamount" id="discountamount" class="form-control"
+                placeholder="Discount amount">
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="amount">Amount after discount</label>
+              <input name="amountafterdiscount" type="number" ng-model="vm.invoice.amountafterdiscount" id="amountafterdiscount" class="form-control"
+                placeholder="amountafterdiscount">
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="vatamount">vatamount</label>
+              <input name="vatamount" type="number" ng-model="vm.invoice.vatamount" id="vatamount" class="form-control" placeholder="vatamount">
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="whtamount">whtamount</label>
+              <input name="whtamount" type="number" ng-model="vm.invoice.whtamount" id="whtamount" class="form-control" placeholder="whtamount">
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="totalamount">totalamount</label>
+              <input name="totalamount" type="number" ng-model="vm.invoice.totalamount" id="totalamount" class="form-control" placeholder="totalamount">
+            </div>
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-default">{{vm.invoice._id ? 'Update' : 'Create'}}</button>
+            </div>
+            <div ng-show="vm.error" class="text-danger">
+              <strong ng-bind="vm.error"></strong>
+            </div>
+          </div>
+      </fieldset>
+    </form>
+  </div>
+</section>
